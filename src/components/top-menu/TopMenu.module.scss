@@ -2,20 +2,30 @@
   padding: 10px 0;
   display: flex;
   flex-direction: row;
+  flex-flow: wrap;
   align-items: center;
   gap: 15px;
   cursor: pointer;
 
-  .active {
-    color: #11a9f5;
-    font-weight: bold;
-  }
+  .searchTabs {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
 
-  .activeLoading {
-    color: #11a9f5;
-    font-weight: bold;
-    border-bottom: 2px solid #11a9f5;
-    animation: blink 500ms infinite;
+    .active {
+      color: #11a9f5;
+      font-weight: bold;
+    }
+
+    .activeLoading {
+      color: #11a9f5;
+      font-weight: bold;
+      border-bottom: 2px solid #11a9f5;
+      animation: blink 500ms infinite;
+    }
   }
 }
 

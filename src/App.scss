@@ -5,5 +5,9 @@
   &.default {
     max-width: 768px;
     margin-top: 40vh;
+
+    @media (max-width: 512px) {
+      margin-top: 0;
+    }
   }
 }

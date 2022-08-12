@@ -41,7 +41,9 @@ function App() {
   }, [activeTab])
 
   const handleReset = () => {
-    location.reload()
+    setSearchResultMode(false)
+    setSearchText('')
+    setActiveTab(searchTabs[0])
   }
 
   const handleSearch = async () => {
