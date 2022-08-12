@@ -1,6 +1,6 @@
 import styles from './SearchBar.module.scss'
 
-function SearchBar({ loading, searchText, onChange, onSearch }) {
+function SearchBar({ loading, searchText, onChange, onSearch, isPending }) {
   const handleSubmit = e => {
     e.preventDefault()
     onSearch()
@@ -8,7 +8,7 @@ function SearchBar({ loading, searchText, onChange, onSearch }) {
   return (
     <form className={styles.searchBar} onSubmit={handleSubmit}>
       <input type="search" placeholder="Search" value={searchText} onChange={onChange}/>
-      <button type="submit" disabled={loading}>Search</button>
+      <button type="submit" disabled={loading}>{isPending ? 'Searching...' : 'Search'}</button>
     </form>
   )
 }

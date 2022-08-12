@@ -10,4 +10,13 @@
     color: #11a9f5;
     font-weight: bold;
   }
+
+  .activeLoading {
+    color: #11a9f5;
+    font-weight: bold;
+    border-bottom: 2px solid #11a9f5;
+    animation: blink 500ms infinite;
+  }
 }
+
+@keyframes blink { 50% { border-color:#fff ; } }

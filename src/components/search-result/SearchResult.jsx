@@ -1,7 +1,25 @@
 import styles from './SearchResult.module.scss'
 
-function SearchResult({ searchResult }) {
+import { useCallback, useEffect } from 'react'
+
+function SearchResult({ searchResult, loadNext }) {
   const results = searchResult.results.read()
+  const onScroll = useCallback(async () => {
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+    const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight
+    const clientHeight = document.documentElement.clientHeight || window.innerHeight
+    const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight
+
+    if (scrolledToBottom) {
+      loadNext(results.length)
+    }
+  }, [results.length])
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, false)
+    return () => {
+      window.removeEventListener("scroll", onScroll, false)
+    }
+  }, [onScroll])
   return (
     <div className={styles.searchResult}>
       {results.map((data, index) => (
@@ -16,13 +34,6 @@ function SearchResult({ searchResult }) {
           </div>
         </div>))}
       {results.length === 0 && <div className={styles.loading}>No result</div>}
-      {results.length > 0 && <div className={styles.pagination}>
-        <div className={styles.paginationItem}>Prev</div>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(page => (
-          <div className={styles.paginationItem} key={page}>{page}</div>
-        ))}
-        <div className={styles.paginationItem}>Next</div>
-      </div>}
     </div>
   )
 }

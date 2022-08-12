@@ -1,6 +1,6 @@
 import styles from './TopMenu.module.scss'
 
-function TopMenu({ searchTabs, activeTab, onTabChange, onLogoClick }) {
+function TopMenu({ searchTabs, activeTab, onTabChange, onLogoClick, isPending }) {
   const handleTabChange = (tab) => {
     if (activeTab !== tab) {
       onTabChange(tab)
@@ -13,7 +13,7 @@ function TopMenu({ searchTabs, activeTab, onTabChange, onLogoClick }) {
       {searchTabs.map(tab => (
         <div key={tab}
              onClick={() => handleTabChange(tab)}
-             className={tab === activeTab ? styles.active : null}>{tab}</div>
+             className={tab === activeTab ? isPending ? styles.activeLoading : styles.active : null}>{tab}</div>
       ))}
     </div>
   )

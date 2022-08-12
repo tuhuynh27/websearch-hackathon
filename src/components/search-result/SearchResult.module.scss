@@ -35,19 +35,4 @@
     margin: 20px 0;
     font-size: 18px;
   }
-
-  .pagination {
-display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-
-    .paginationItem {
-      &.active {
-       border-bottom: 1px solid black;
-      }
-    }
-  }
 }

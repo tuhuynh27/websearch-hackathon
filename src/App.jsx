@@ -23,8 +23,8 @@ function App() {
   const [searchResultMode, setSearchResultMode] = useState(false)
   const [activeTab, setActiveTab] = useState(searchTabs[0])
   const [searchText, setSearchText] = useState('')
-  const [searchResult, setSearchResult] = useState(getSearchResult('web', ''))
-  const [isPending, startTransition] = useTransition();
+  const [searchResult, setSearchResult] = useState(getSearchResult('', 'web'))
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
     if (searchResultMode && searchText) {
@@ -41,15 +41,19 @@ function App() {
   }, [activeTab])
 
   const handleReset = () => {
-    setSearchResultMode(false);
-    setActiveTab(searchTabs[0]);
-    setSearchText('');
+    location.reload()
   }
 
   const handleSearch = async () => {
-    setSearchResultMode(true)
     startTransition(() => {
+      setSearchResultMode(true)
       setSearchResult(getSearchResult(searchText, activeTab))
+    })
+  }
+
+  const loadNext = async (currLength) => {
+    startTransition(() => {
+      setSearchResult(getSearchResult(searchText, activeTab, currLength))
     })
   }
 
@@ -58,11 +62,11 @@ function App() {
       <TopMenu searchTabs={searchTabs}
                activeTab={activeTab}
                onTabChange={tab => setActiveTab(tab)}
-               onLogoClick={() => handleReset()}/>
+               onLogoClick={() => handleReset()} isPending={isPending}/>
       <SearchBar searchText={searchText}
                  onChange={e => setSearchText(e.target.value)}
                  onSearch={handleSearch}/>
-      {searchResultMode ? <SearchResult searchResult={searchResult} /> : <TopPageAds/>}
+      {searchResultMode ? <SearchResult searchResult={searchResult} loadNext={loadNext} /> : <TopPageAds/>}
     </div>
   )
 }
