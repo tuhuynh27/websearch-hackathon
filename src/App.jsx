@@ -15,7 +15,6 @@ const searchTabs = [
   'image',
   'video',
   'map',
-  'news',
   'travel'
 ]
 
@@ -68,7 +67,7 @@ function App() {
       <SearchBar searchText={searchText}
                  onChange={e => setSearchText(e.target.value)}
                  onSearch={handleSearch}/>
-      {searchResultMode ? <SearchResult searchResult={searchResult} loadNext={loadNext} /> : <TopPageAds/>}
+      {searchResultMode ? <SearchResult searchResult={searchResult} loadNext={loadNext} isPending={isPending} /> : <TopPageAds/>}
     </div>
   )
 }

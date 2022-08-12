@@ -7,6 +7,10 @@
   gap: 15px;
   cursor: pointer;
 
+  @media (max-width: 512px) {
+    justify-content: center;
+  }
+
   .searchTabs {
     display: flex;
     flex-direction: row;

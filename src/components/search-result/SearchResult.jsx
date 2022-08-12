@@ -2,7 +2,7 @@ import styles from './SearchResult.module.scss'
 
 import { useCallback, useEffect } from 'react'
 
-function SearchResult({ searchResult, loadNext }) {
+function SearchResult({ searchResult, loadNext, isPending }) {
   const results = searchResult.results.read()
   const onScroll = useCallback(async () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
@@ -34,6 +34,7 @@ function SearchResult({ searchResult, loadNext }) {
           </div>
         </div>))}
       {results.length === 0 && <div className={styles.loading}>No result</div>}
+      {results.length > 0 && isPending && <div className={styles.loading}>Loading...</div>}
     </div>
   )
 }
