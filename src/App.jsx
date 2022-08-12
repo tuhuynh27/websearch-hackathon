@@ -1,11 +1,13 @@
 import './App.scss'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import TopMenu from './components/top-menu/TopMenu.jsx'
 import SearchBar from './components/search-bar/SearchBar.jsx'
 import SearchResult from './components/search-result/SearchResult.jsx'
 import TopPageAds from './components/top-page-ads/TopPageAds.jsx'
+
+import { getSearchResult } from './api/getSearchResult'
 
 const searchTabs = [
   'web',
@@ -22,10 +24,29 @@ function App() {
   const [searchResultMode, setSearchResultMode] = useState(false)
   const [activeTab, setActiveTab] = useState(searchTabs[0])
   const [searchText, setSearchText] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [searchResult, setSearchResult] = useState([])
 
-  const handleSearch = () => {
+  useEffect(() => {
+    if (searchResultMode && searchText) {
+      document.title = 'Search results for ' + searchText
+    } else {
+      document.title = 'Rakuten Web Search'
+    }
+  }, [searchResultMode, searchText])
+
+  const handleReset = () => {
+    setSearchResultMode(false);
+    setActiveTab(searchTabs[0]);
+    setSearchText('');
+  }
+
+  const handleSearch = async () => {
     setSearchResultMode(true)
-    console.log('Searching ' + searchText)
+    setLoading(true)
+    const data = await getSearchResult()
+    setLoading(false)
+    setSearchResult(data)
   }
 
   return (
@@ -33,11 +54,11 @@ function App() {
       <TopMenu searchTabs={searchTabs}
                activeTab={activeTab}
                onTabChange={tab => setActiveTab(tab)}
-               onLogoClick={() => { setSearchResultMode(false); setSearchText('') }}/>
+               onLogoClick={() => handleReset()}/>
       <SearchBar searchText={searchText}
                  onChange={e => setSearchText(e.target.value)}
                  onSearch={handleSearch}/>
-      {searchResultMode ? <SearchResult /> : <TopPageAds/>}
+      {searchResultMode ? <SearchResult loading={loading} results={searchResult} /> : <TopPageAds/>}
     </div>
   )
 }
