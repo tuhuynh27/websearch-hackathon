@@ -2,7 +2,7 @@ import styles from './SearchResult.module.scss'
 
 import { useCallback, useEffect } from 'react'
 
-function SearchResult({ searchResult, loadNext, isPending }) {
+function SearchResult({ searchResult, loadNext, isPending, prepareNext }) {
   const results = searchResult.results.read()
   const onScroll = useCallback(async () => {
     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
@@ -13,7 +13,7 @@ function SearchResult({ searchResult, loadNext, isPending }) {
     if (scrolledToBottom) {
       loadNext(results.length)
     }
-  }, [results.length])
+  }, [results])
   useEffect(() => {
     window.addEventListener('scroll', onScroll, false)
     return () => {

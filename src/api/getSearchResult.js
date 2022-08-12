@@ -31,7 +31,7 @@ function wrapPromise(promise) {
   }
 }
 
-function fetchSearchResult(searchText = '', searchTab = 'web', currLength = 0) {
+export function fetchSearchResult(searchText = '', searchTab = 'web', currLength = 0) {
   return new Promise(resolve => {
     setTimeout(() => {
       const unsupported = ['image', 'shopping', 'map', 'news']
@@ -55,7 +55,12 @@ function fetchSearchResult(searchText = '', searchTab = 'web', currLength = 0) {
   })
 }
 
-export function getSearchResult(searchText = '', searchTab = 'web', currLength = 0) {
+export function getSearchResult(searchText = '', searchTab = 'web', currLength = 0, preloaded = null) {
+  if (preloaded) {
+    return {
+      results: wrapPromise(Promise.resolve(preloaded))
+    }
+  }
   const resultPromise = fetchSearchResult(searchText, searchTab, currLength)
   return {
     results: wrapPromise(resultPromise)
