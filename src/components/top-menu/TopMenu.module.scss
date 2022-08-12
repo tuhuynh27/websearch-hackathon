@@ -1,0 +1,13 @@
+.topMenu {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+
+  .active {
+    color: #11a9f5;
+    font-weight: bold;
+  }
+}
