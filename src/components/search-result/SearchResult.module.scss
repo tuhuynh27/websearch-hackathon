@@ -11,6 +11,15 @@
   gap: 20px;
 
   .resultElement {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+
+    img {
+      max-width: 150px;
+    }
+
     h1, p {
       margin: 0;
     }
@@ -25,5 +34,20 @@
   .loading {
     margin: 20px 0;
     font-size: 18px;
+  }
+
+  .pagination {
+display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+
+    .paginationItem {
+      &.active {
+       border-bottom: 1px solid black;
+      }
+    }
   }
 }

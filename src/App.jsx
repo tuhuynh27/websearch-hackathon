@@ -1,6 +1,6 @@
 import './App.scss'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 
 import TopMenu from './components/top-menu/TopMenu.jsx'
 import SearchBar from './components/search-bar/SearchBar.jsx'
@@ -13,19 +13,18 @@ const searchTabs = [
   'web',
   'shopping',
   'image',
-  'movie',
+  'video',
   'map',
   'news',
-  'trip',
-  'others'
+  'travel'
 ]
 
 function App() {
   const [searchResultMode, setSearchResultMode] = useState(false)
   const [activeTab, setActiveTab] = useState(searchTabs[0])
   const [searchText, setSearchText] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [searchResult, setSearchResult] = useState([])
+  const [searchResult, setSearchResult] = useState(getSearchResult('web', ''))
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (searchResultMode && searchText) {
@@ -35,6 +34,12 @@ function App() {
     }
   }, [searchResultMode, searchText])
 
+  useEffect(() => {
+    if (searchResultMode) {
+      void handleSearch()
+    }
+  }, [activeTab])
+
   const handleReset = () => {
     setSearchResultMode(false);
     setActiveTab(searchTabs[0]);
@@ -43,10 +48,9 @@ function App() {
 
   const handleSearch = async () => {
     setSearchResultMode(true)
-    setLoading(true)
-    const data = await getSearchResult()
-    setLoading(false)
-    setSearchResult(data)
+    startTransition(() => {
+      setSearchResult(getSearchResult(searchText, activeTab))
+    })
   }
 
   return (
@@ -58,7 +62,7 @@ function App() {
       <SearchBar searchText={searchText}
                  onChange={e => setSearchText(e.target.value)}
                  onSearch={handleSearch}/>
-      {searchResultMode ? <SearchResult loading={loading} results={searchResult} /> : <TopPageAds/>}
+      {searchResultMode ? <SearchResult searchResult={searchResult} /> : <TopPageAds/>}
     </div>
   )
 }
